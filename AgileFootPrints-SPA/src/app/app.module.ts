@@ -72,7 +72,7 @@ import { SubNavBarComponent } from './subNavBar/subNavBar.component';
 import { ProjectContributorsComponent } from './ProjectContributors/ProjectContributors.component';
 import { ProjectContributorBottomSheetComponent } from './ProjectContributorBottomSheet/ProjectContributorBottomSheet.component';
 import { MailComponent } from './mail/mail.component';
-import { LandingPageComponent } from './landingPage/landingPage.component';
+
 import { MyTaskComponent } from './my-task/my-task.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { UserScrumRoleComponent } from './UserScrumRole/UserScrumRole.component';
@@ -111,7 +111,7 @@ export function tokenGetter() {
     ProjectContributorsComponent,
     ProjectContributorBottomSheetComponent,
     MailComponent,
-    LandingPageComponent,
+    
     MyTaskComponent,
     UserScrumRoleComponent,
     RoleBasedProjectViewComponent,
