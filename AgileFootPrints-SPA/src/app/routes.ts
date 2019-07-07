@@ -11,6 +11,7 @@ import { MyTaskComponent } from './my-task/my-task.component';
 import { UserScrumRoleComponent } from './UserScrumRole/UserScrumRole.component';
 import { MeetingComponent } from './Meeting/Meeting.component';
 import { ReportComponent } from './Report/Report.component';
+import { RoleBasedViewComponent } from './RoleBasedView/RoleBasedView.component';
 
 export const appRoutes: Routes = [
   {
@@ -58,6 +59,12 @@ export const appRoutes: Routes = [
     component: ReportComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'roleBased',
+    component: RoleBasedViewComponent,
+    canActivate: [AuthGuard]
+  },
+
   {
     path: '**',
     redirectTo: 'home',

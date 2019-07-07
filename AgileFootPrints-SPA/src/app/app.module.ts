@@ -82,6 +82,7 @@ import { NewMeetingComponent } from './NewMeeting/NewMeeting.component';
 import { EditMeetingComponent } from './EditMeeting/EditMeeting.component';
 import { ReportComponent } from './Report/Report.component';
 import { from } from 'rxjs';
+import { RoleBasedViewComponent } from './RoleBasedView/RoleBasedView.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -111,14 +112,14 @@ export function tokenGetter() {
     ProjectContributorsComponent,
     ProjectContributorBottomSheetComponent,
     MailComponent,
-    
     MyTaskComponent,
     UserScrumRoleComponent,
     RoleBasedProjectViewComponent,
     MeetingComponent,
     NewMeetingComponent,
     EditMeetingComponent,
-    ReportComponent
+    ReportComponent,
+    RoleBasedViewComponent
   ],
   imports: [
     BrowserModule,
@@ -166,7 +167,6 @@ export function tokenGetter() {
     NgScrollbarModule,
     MatTabsModule,
     NgxMaterialTimepickerModule,
-
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

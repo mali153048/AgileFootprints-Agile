@@ -10,7 +10,7 @@ import { AuthService } from '../_services/auth.service';
 import { ProjectService } from '../_services/project.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EpicService } from '../_services/epic.service';
 import { ContributorService } from '../_services/contributor.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -32,6 +32,8 @@ export class ProjectComponent implements OnInit {
   projectId: string;
   projectEpics = [];
   contributions = [];
+  roleBasedProjectId: string;
+  toggleProject = false;
 
   constructor(
     private authService: AuthService,
@@ -41,6 +43,7 @@ export class ProjectComponent implements OnInit {
     private modalService: BsModalService,
     private epicService: EpicService,
     private router: Router,
+    private route: ActivatedRoute,
     public dialog: MatDialog
   ) {
     this.userId = this.authService.decodedToken.nameid;
@@ -112,30 +115,10 @@ export class ProjectComponent implements OnInit {
   }
 
   ViewArtifacts(project: any) {
-    this.projectService
-      .viewProjectArtifacts(this.userId, project.projectId)
-      .subscribe(
-        next => {
-          const dialogConfig = new MatDialogConfig();
-          dialogConfig.disableClose = false;
-          dialogConfig.autoFocus = true;
-
-          dialogConfig.data = {
-            userRoleList: next,
-            projectId: project.projectId
-          };
-          dialogConfig.height = '600px';
-          dialogConfig.width = '1500px';
-
-          const dialogRef = this.dialog.open(
-            RoleBasedProjectViewComponent,
-            dialogConfig
-          );
-          dialogRef.afterClosed().subscribe(result => {});
-        },
-        error => {
-          this.alertify.error(error.message);
-        }
-      );
+    this.roleBasedProjectId = project.projectId + '';
+    this.toggleProject = true;
+  }
+  receiveMessage($event) {
+    this.toggleProject = $event;
   }
 }

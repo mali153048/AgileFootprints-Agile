@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export class ProjectService {
   baseUrl = environment.apiUrl + 'project/';
   projectId: string;
+
   constructor(private http: HttpClient) {}
 
   getAllUserProjects(userId): Observable<any> {
