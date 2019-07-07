@@ -43,12 +43,9 @@ export class ProjectService {
     return this.http.get<any>(this.baseUrl + 'myContributions/' + userId);
   }
 
-  viewProjectArtifacts(
-    contributorId: string,
-    projectId: string
-  ): Observable<any> {
+  getUserScrumRoles(contributorId: string, projectId: string): Observable<any> {
     return this.http.post<any>(
-      this.baseUrl + 'viewProjectArtifacts/' + contributorId + '/' + projectId,
+      this.baseUrl + 'getUserScrumRoles/' + contributorId + '/' + projectId,
       null
     );
   }

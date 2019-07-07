@@ -1,0 +1,8 @@
+p.noteAlt {
+  background-color: #deeff8;
+  border-left: solid 4px #5867aa;
+  line-height: 28px;
+
+  overflow: hidden;
+  padding-left: 12px;
+}

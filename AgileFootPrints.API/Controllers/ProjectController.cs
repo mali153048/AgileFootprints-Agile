@@ -127,14 +127,14 @@ namespace AgileFootPrints.API.Controllers
         }
 
 
-        [HttpPost("viewProjectArtifacts/{contributorsId}/{projectId}")]
-        public async Task<IActionResult> ViewProjectArtifacts(string contributorsId, string projectId)
+        [HttpPost("getUserScrumRoles/{contributorsId}/{projectId}")]
+        public async Task<IActionResult> GetUserScrumRoles(string contributorsId, string projectId)
         {
-            var isInRole = await _context.UserProjectRole.Where(x => x.UserId == Convert.ToInt32(contributorsId)
+            var isInRoles = await _context.UserProjectRole.Where(x => x.UserId == Convert.ToInt32(contributorsId)
                               && x.ProjectId == Convert.ToInt32(projectId)).ToArrayAsync();
 
 
-            return Ok(isInRole);
+            return Ok(isInRoles);
         }
         [HttpGet("getProjectName/{projectId}")]
         public async Task<IActionResult> GetProjectName(string projectId)
@@ -152,7 +152,9 @@ namespace AgileFootPrints.API.Controllers
             {
                 return BadRequest();
             }
-            var stories = await _context.Stories.Include(x => x.User).Where(x => x.ProjectId == Convert.ToInt32(projectId)).ToArrayAsync();
+            var stories = await _context.Stories.Include(x => x.User).Include(x => x.Epic)
+            .Where(x => x.ProjectId == Convert.ToInt32(projectId)).ToArrayAsync();
+
 
             return Ok(stories);
         }

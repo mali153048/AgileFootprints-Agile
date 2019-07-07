@@ -9,10 +9,43 @@
   <br />
 
   <div style="margin-left: 70px">
-    <mat-tab-group>
-      <mat-tab label="First"> Content 1 </mat-tab>
-      <mat-tab label="Second"> Content 2 </mat-tab>
-      <mat-tab label="Third"> Content 3 </mat-tab>
+    <mat-tab-group (selectedTabChange)="tabChanged($event)">
+      <mat-tab label="PROJECT">
+        <div class="col-md-8 mt-4 bg-primary text-light ">
+          <div class="p-2">
+            Project Name &nbsp; <i>{{ projectInfo.projectName }}</i
+            ><br />
+            Project Description &nbsp;
+            <i> {{ projectInfo.projectDescription }}</i>
+            <br />
+            KEY &nbsp;<i>{{ projectInfo.projectKey }}</i>
+          </div>
+        </div>
+        <div class="col-md-8 mt-4 bg-success">
+          <div class="p-2">
+            <h5 class="text-light">Your SCRUM Roles</h5>
+
+            <p *ngFor="let role of userRoles" class="noteAlt ">
+              <li *ngIf="userRoles.length === 0">
+                You have not been assigned any role yet
+              </li>
+              <li *ngIf="role.scrumRolesId === 1">Product Owner</li>
+              <li *ngIf="role.scrumRolesId === 2">SCRUM Master</li>
+              <li *ngIf="role.scrumRolesId === 3">Developer</li>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-8 mt-4">
+          <p class="noteAlt">
+            NOTE<br />
+            If you have not been assigned any role, You will be able to just
+            view the project artifacts and not be able to update or delete any.
+            Roles are assigned by Project owner
+          </p>
+        </div>
+      </mat-tab>
+      <mat-tab label="STORIES"> Content 2 </mat-tab>
+      <mat-tab label="SPRINTS"> Content 3 </mat-tab>
     </mat-tab-group>
   </div>
 </div>
