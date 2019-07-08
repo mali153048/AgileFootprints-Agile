@@ -152,7 +152,9 @@ namespace AgileFootPrints.API.Controllers
             {
                 return BadRequest();
             }
-            var stories = await _context.Stories.Include(x => x.User).Include(x => x.Epic)
+            var stories = await _context.Stories.Include(x => x.User)
+            .Include(x => x.Epic)
+            .Include(x => x.Sprint)
             .Where(x => x.ProjectId == Convert.ToInt32(projectId)).ToArrayAsync();
 
 

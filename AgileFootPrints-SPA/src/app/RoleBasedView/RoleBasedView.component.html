@@ -44,7 +44,93 @@
           </p>
         </div>
       </mat-tab>
-      <mat-tab label="STORIES"> Content 2 </mat-tab>
+      <mat-tab label="STORIES">
+        <collapsible-list [type]="'accordion'">
+          <collapsible-list-item *ngFor="let story of projectStories">
+            <collapsible-header class="waves-effect">
+              <div class="row">
+                <div class="col-md-1">
+                  <span *ngIf="story.priorityId === 1" style="color: red"
+                    >&#8593;</span
+                  >
+                  <span *ngIf="story.priorityId === 2" style="color: yellow"
+                    >&#8593;</span
+                  >
+                  <span *ngIf="story.priorityId === 3" style="color: green"
+                    >&#8593;</span
+                  >
+                </div>
+                <div class="col-md-3">{{ story.storyName }}</div>
+                <div class="col-md-6">
+                  <small>
+                    {{ story.storyDescription }}
+                  </small>
+                </div>
+                <div class="col-md-2">
+                  <span *ngIf="story.epic === null" class="badge badge-danger"
+                    >Not Assigned</span
+                  >
+                  <span *ngIf="story.epic !== null" class="badge badge-primary">
+                    {{ story.epic.epicName }}
+                  </span>
+                </div>
+              </div>
+            </collapsible-header>
+            <collapsible-body [expanded]="false">
+              <div class="row">
+                <div class="col-md-5">
+                  Acceptance Criteria :<br />
+                  <small>{{ story.acceptanceCriteria }}</small>
+                </div>
+                <div class="col-md-4">
+                  Assigned To :<br />
+                  <small *ngIf="story.user === null"
+                    ><i>Not Added to any Sprint</i></small
+                  >
+                  <img
+                    height="26px"
+                    width="26px"
+                    src="https://img.icons8.com/ultraviolet/40/000000/user.png"
+                  />{{ story.user.firstName }}{{ space }}
+                  {{ story.user.lastName }}
+                  <small>
+                    (<i
+                      ><a href="#"> {{ story.user.userName }}</a></i
+                    >)</small
+                  >
+                </div>
+                <div class="col-md-3">
+                  Sprint :
+                  <p *ngIf="story.sprint !== null">
+                    {{ story.sprint.sprintName }}
+                  </p>
+                  <p *ngIf="story.sprint === null">
+                    <small><i>Not Added to any Sprint</i></small>
+                  </p>
+                </div>
+              </div>
+              <div *ngIf="isProductOwner === true" class="row">
+                <div class="col-md-6">
+                  <button
+                    (click)="Edit(story.id)"
+                    mat-raised-button
+                    color="Primary"
+                  >
+                    Edit</button
+                  >&nbsp;
+                  <button
+                    (click)="Delete(story.id)"
+                    mat-raised-button
+                    color="warn"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </collapsible-body>
+          </collapsible-list-item>
+        </collapsible-list>
+      </mat-tab>
       <mat-tab label="SPRINTS"> Content 3 </mat-tab>
     </mat-tab-group>
   </div>

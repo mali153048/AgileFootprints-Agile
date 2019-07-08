@@ -31,10 +31,15 @@ export class EditStoryComponent implements OnInit {
     this.story = this.data.storyDetails;
   }
   getProjectEpics() {
-    this.epicService.getProjectEpics(this.projectId).subscribe(next => {
-      this.projectEpics = next[0].epics;
-      console.log('Epics fetched', this.projectEpics);
-    });
+    this.epicService.getProjectEpics(this.projectId).subscribe(
+      next => {
+        this.projectEpics = next[0].epics;
+        console.log('Epics fetched', this.projectEpics);
+      },
+      error => {
+        this.alertify.error(error.message);
+      }
+    );
   }
 
   getPriorities() {

@@ -2,7 +2,14 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ProjectService } from '../_services/project.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
-import { MatTabChangeEvent } from '@angular/material';
+import {
+  MatTabChangeEvent,
+  MatDialogConfig,
+  MatDialog
+} from '@angular/material';
+import { StoryService } from '../_services/story.service';
+import { EditStoryComponent } from '../EditStory/EditStory.component';
+import { RoleBasedStoryEditComponent } from '../RoleBasedStoryEdit/RoleBasedStoryEdit.component';
 
 @Component({
   selector: 'app-rolebasedview',
@@ -19,12 +26,15 @@ export class RoleBasedViewComponent implements OnInit {
   isScrumMaster = false;
   isDeveloper = false;
   tabIndex: number;
+  space = ' ';
 
   @Output() toggleEvent = new EventEmitter<boolean>();
   constructor(
     private projectService: ProjectService,
     private alertify: AlertifyService,
-    private authService: AuthService
+    private authService: AuthService,
+    private storyService: StoryService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -94,4 +104,64 @@ export class RoleBasedViewComponent implements OnInit {
       // call sprints
     }
   };
+
+  Delete(id: string) {
+    this.alertify.confirm(
+      'Are you sure you want to delete this story ? The story will be deleted from everywhere. ',
+      () => {
+        this.storyService.deleteStory(id).subscribe(
+          next => {
+            const toFilter = this.projectStories.filter(x => x.id === id);
+            const index = this.projectStories.indexOf(toFilter);
+            this.projectStories.splice(index, 1);
+            this.alertify.success('Deleted Success');
+          },
+          error => {
+            this.alertify.error(error.message);
+          }
+        );
+      }
+    );
+  }
+  getProjectStories() {
+    this.projectService.getProjectStories(this.projectId).subscribe(
+      next => {
+        console.log(next);
+        this.projectStories = next;
+      },
+      error => {
+        this.alertify.error(error.message);
+      }
+    );
+  }
+  Edit(id: string) {
+    this.storyService.getStory(+id).subscribe(next => {
+      console.log(next);
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = {
+        storyDetails: next,
+        projectId: this.projectId
+      };
+      const dialogRef = this.dialog.open(
+        RoleBasedStoryEditComponent,
+        dialogConfig
+      );
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === null) {
+          return;
+        }
+        this.storyService.editStory(result.id, result).subscribe(
+          () => {
+            this.getProjectStories();
+            this.alertify.success('Story Edited Successfully');
+          },
+          error => {
+            this.alertify.error(error.message);
+          }
+        );
+      });
+    });
+  }
 }

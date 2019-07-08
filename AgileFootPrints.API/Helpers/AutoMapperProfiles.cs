@@ -21,6 +21,7 @@ namespace AgileFootPrints.API.Helpers
             CreateMap<SprintDto, Sprint>();
             CreateMap<ScrumRoleDto, UserProjectRole>();
             CreateMap<UserProjectRole, ScrumRoleDto>();
+            CreateMap<UserStoryToReturnDto, Story>();
 
         }
     }

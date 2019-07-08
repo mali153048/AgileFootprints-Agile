@@ -1,0 +1,74 @@
+<h2 mat-dialog-title>Story Details</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input
+      matInput
+      [(ngModel)]="story.storyName"
+      placeholder="Story Name"
+      required
+    />
+    <mat-error>Story Name is required</mat-error>
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <textarea
+      matInput
+      [(ngModel)]="story.storyDescription"
+      placeholder="Description"
+      required
+    ></textarea>
+    <mat-error>Story Description is required</mat-error>
+  </mat-form-field>
+  <br />
+  <mat-form-field>
+    <textarea
+      matInput
+      [(ngModel)]="story.acceptanceCriteria"
+      placeholder="Acceptance Criteria"
+      required
+    >
+    </textarea>
+    <mat-error>Provide acceptance criteria for the story</mat-error>
+  </mat-form-field>
+  <br />
+  <!-- Epics -->
+  <mat-form-field>
+    <mat-select [(ngModel)]="story.epicId" placeholder=" Epic">
+      <mat-option *ngFor="let epic of projectEpics" [value]="epic.id">
+        {{ epic.epicName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br />
+  <!-- sprints of project -->
+  <mat-form-field>
+    <mat-select [(ngModel)]="story.sprintId" placeholder="Sprint">
+      <mat-option *ngFor="let sprint of projectSprints" [value]="sprint.id">
+        {{ sprint.sprintName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br />
+  <!--  Users of proejct -->
+  <mat-form-field>
+    <mat-select [(ngModel)]="story.userId" placeholder="Assignee">
+      <mat-option
+        *ngFor="let contributor of projectContributors"
+        [value]="contributor.id"
+      >
+        {{ contributor.userName }}
+      </mat-option>
+    </mat-select> </mat-form-field
+  ><br />
+  <mat-form-field>
+    <mat-select [(ngModel)]="story.priorityId" placeholder="Priority">
+      <mat-option *ngFor="let priority of priorities" [value]="priority.id">
+        {{ priority.priority }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" (click)="close()">Close</button>
+  <button mat-raised-button color="warn" (click)="save()">Save</button>
+</mat-dialog-actions>
