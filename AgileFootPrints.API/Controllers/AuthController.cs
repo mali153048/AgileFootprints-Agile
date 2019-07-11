@@ -89,7 +89,7 @@ namespace AgileFootPrints.API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.Now.AddHours(10),
                 SigningCredentials = cred
             };
 

@@ -106,6 +106,8 @@ namespace AgileFootPrints.API.Controllers
             story.AcceptanceCriteria = storyPatch.AcceptanceCriteria;
             story.EpicId = storyPatch.EpicId;
             story.PriorityId = storyPatch.PriorityId;
+            story.SprintId = storyPatch.SprintId;
+            story.UserId = storyPatch.UserId;
             await _context.SaveChangesAsync();
 
             return Ok(storyPatch);

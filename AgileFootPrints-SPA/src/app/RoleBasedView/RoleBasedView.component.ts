@@ -10,6 +10,7 @@ import {
 import { StoryService } from '../_services/story.service';
 import { EditStoryComponent } from '../EditStory/EditStory.component';
 import { RoleBasedStoryEditComponent } from '../RoleBasedStoryEdit/RoleBasedStoryEdit.component';
+import { SprintService } from '../_services/sprint.service';
 
 @Component({
   selector: 'app-rolebasedview',
@@ -21,7 +22,10 @@ export class RoleBasedViewComponent implements OnInit {
   projectInfo: any = {};
   projectStories = [];
   userId: string;
+  sprints = [];
   userRoles = [];
+  startSprintIds = [];
+  endSprintIds = [];
   isProductOwner = false;
   isScrumMaster = false;
   isDeveloper = false;
@@ -34,6 +38,7 @@ export class RoleBasedViewComponent implements OnInit {
     private alertify: AlertifyService,
     private authService: AuthService,
     private storyService: StoryService,
+    private sprintService: SprintService,
     public dialog: MatDialog
   ) {}
 
@@ -102,7 +107,9 @@ export class RoleBasedViewComponent implements OnInit {
       );
     } else if (this.tabIndex === 2) {
       // call sprints
+      this.getSprints();
     }
+    // tslint:disable-next-line:semicolon
   };
 
   Delete(id: string) {
@@ -163,5 +170,53 @@ export class RoleBasedViewComponent implements OnInit {
         );
       });
     });
+  }
+
+  getSprints() {
+    this.sprintService.getSprints(this.projectId).subscribe(
+      next => {
+        console.log(next);
+        next.forEach(element => {
+          element.startDate = new Date(element.startDate);
+          element.endDate = new Date(element.endDate);
+
+          if (
+            element.startDate.getTime() ===
+              new Date('0001-01-01T00:00:00').getTime() ||
+            element.endDate.getTime() ===
+              new Date('0001-01-01T00:00:00').getTime()
+          ) {
+            element.startDate = undefined;
+            element.endDate = undefined;
+          }
+          console.log('Sprint is ', element);
+          console.log(element.startDate);
+          console.log(new Date());
+          if (
+            new Date(element.startDate).getDate() === new Date().getDate() &&
+            element.statusId === 1 // sprint must not be already started
+          ) {
+            // send element.id
+            this.startSprintIds.push(element.id);
+          }
+          if (new Date(element.endDate).getTime() < new Date().getTime()) {
+            this.endSprintIds.push(element.id);
+          }
+
+          console.log('yo', this.startSprintIds);
+        });
+        if (this.startSprintIds.length > 0) {
+          // console.log(this.startSprintIds);
+          this.sprintService.startNow(this.startSprintIds).subscribe();
+        }
+        if (this.endSprintIds.length > 0) {
+          this.sprintService.endSprint(this.endSprintIds).subscribe();
+        }
+        this.sprints = next;
+      },
+      error => {
+        this.alertify.error(error.message);
+      }
+    );
   }
 }

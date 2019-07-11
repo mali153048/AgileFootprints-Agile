@@ -131,7 +131,49 @@
           </collapsible-list-item>
         </collapsible-list>
       </mat-tab>
-      <mat-tab label="SPRINTS"> Content 3 </mat-tab>
+      <mat-tab label="SPRINTS">
+        <collapsible-list [type]="'accordion'">
+          <collapsible-list-item *ngFor="let sprint of sprints">
+            <collapsible-header class="waves-effect">
+              <div class="row">
+                <div class="col-md-2">{{ sprint.sprintName }}</div>
+                <div class="col-md-3">
+                  <small> Starts:</small>
+                  <small *ngIf="sprint.startDate === undefined"
+                    >Not yet Specified</small
+                  >
+                  <small *ngIf="sprint.startDate !== undefined">
+                    {{ sprint.startDate | date: 'dd/MMM/yyyy HH:mm:SS' }}</small
+                  >
+                </div>
+                <div class="col-md-3">
+                  <small> Ends:</small>
+                  <small *ngIf="sprint.endDate === undefined"
+                    >Not yet Specified</small
+                  >
+                  <small *ngIf="sprint.endDate !== undefined">
+                    {{ sprint.endDate | date: 'dd/MMM/yyyy HH:mm:SS' }}</small
+                  >
+                </div>
+                <div class="col-md-3">
+                  <small *ngIf="sprint.statusId === 1">(Status: To Do)</small>
+                  <small *ngIf="sprint.statusId === 2"
+                    >(Status: In progress)
+                  </small>
+                  <small *ngIf="sprint.statusId === 3"
+                    >(Status: Completed)</small
+                  >
+                </div>
+              </div>
+            </collapsible-header>
+            <collapsible-body [expanded]="false">
+              <div class="row" *ngFor="let story of sprint.stories">
+                {{ story.storyName }}
+              </div>
+            </collapsible-body>
+          </collapsible-list-item>
+        </collapsible-list>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </div>

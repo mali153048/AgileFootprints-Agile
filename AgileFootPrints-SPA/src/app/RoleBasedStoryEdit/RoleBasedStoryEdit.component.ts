@@ -5,6 +5,7 @@ import { EditStoryComponent } from '../EditStory/EditStory.component';
 import { EpicService } from '../_services/epic.service';
 import { PriorityService } from '../_services/priority.service';
 import { SprintService } from '../_services/sprint.service';
+import { ContributorService } from '../_services/contributor.service';
 
 @Component({
   selector: 'app-rolebasedstoryedit',
@@ -15,10 +16,13 @@ export class RoleBasedStoryEditComponent implements OnInit {
   story: any = {};
   projectEpics = [];
   projectSprints = [];
-  projectContributors = [];
+
   priorities = [];
+  contributors = [];
   projectId: string;
+  updatedStroy: any = {};
   constructor(
+    private contributorService: ContributorService,
     private alertify: AlertifyService,
     private epicService: EpicService,
     private sprintService: SprintService,
@@ -33,6 +37,7 @@ export class RoleBasedStoryEditComponent implements OnInit {
     this.getEpics();
     this.getPriorities();
     this.getSprints();
+    this.getContributors();
     console.log(this.projectEpics);
   }
   getEpics() {
@@ -56,6 +61,17 @@ export class RoleBasedStoryEditComponent implements OnInit {
       }
     );
   }
+  getContributors() {
+    this.contributorService.getprojectContributors(this.projectId).subscribe(
+      next => {
+        this.contributors = next;
+        console.log(this.contributors);
+      },
+      error => {
+        this.alertify.error(error.message);
+      }
+    );
+  }
   getPriorities() {
     this.priorityService.getPriorities().subscribe(
       next => {
@@ -68,7 +84,7 @@ export class RoleBasedStoryEditComponent implements OnInit {
   }
   save() {
     console.log('Helloo Ali', this.story);
-    this.dialogRef.close(null);
+    this.dialogRef.close(this.story);
   }
   close() {
     this.dialogRef.close(null);
