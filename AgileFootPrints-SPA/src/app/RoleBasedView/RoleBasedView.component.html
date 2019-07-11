@@ -45,7 +45,12 @@
         </div>
       </mat-tab>
       <mat-tab label="STORIES">
-        <collapsible-list [type]="'accordion'">
+        <mat-spinner
+          style="margin-left: 40%;margin-top: 10%"
+          *ngIf="spinnerCheck === true"
+          color="warn"
+        ></mat-spinner>
+        <collapsible-list *ngIf="spinnerCheck === false" [type]="'accordion'">
           <collapsible-list-item *ngFor="let story of projectStories">
             <collapsible-header class="waves-effect">
               <div class="row">
@@ -132,7 +137,12 @@
         </collapsible-list>
       </mat-tab>
       <mat-tab label="SPRINTS">
-        <collapsible-list [type]="'accordion'">
+        <mat-spinner
+          style="margin-left: 40%;margin-top: 10%"
+          *ngIf="spinnerCheck === true"
+          color="warn"
+        ></mat-spinner>
+        <collapsible-list *ngIf="spinnerCheck === false" [type]="'accordion'">
           <collapsible-list-item *ngFor="let sprint of sprints">
             <collapsible-header class="waves-effect">
               <div class="row">

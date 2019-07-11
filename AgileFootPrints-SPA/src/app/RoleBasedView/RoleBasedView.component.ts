@@ -31,6 +31,8 @@ export class RoleBasedViewComponent implements OnInit {
   isDeveloper = false;
   tabIndex: number;
   space = ' ';
+  progressValue = 0;
+  spinnerCheck = false;
 
   @Output() toggleEvent = new EventEmitter<boolean>();
   constructor(
@@ -96,18 +98,27 @@ export class RoleBasedViewComponent implements OnInit {
       this.getUserScrumRoles();
     } else if (this.tabIndex === 1) {
       // call stories
-      this.projectService.getProjectStories(this.projectId).subscribe(
-        next => {
-          console.log(next);
-          this.projectStories = next;
-        },
-        error => {
-          this.alertify.error(error.message);
-        }
-      );
+      this.spinnerCheck = true;
+      setTimeout(() => {
+        this.projectService.getProjectStories(this.projectId).subscribe(
+          next => {
+            console.log(next);
+            this.projectStories = next;
+          },
+          error => {
+            this.alertify.error(error.message);
+          }
+        );
+        this.spinnerCheck = false;
+      }, 2000);
     } else if (this.tabIndex === 2) {
+      this.spinnerCheck = true;
+
+      setTimeout(() => {
+        this.getSprints();
+        this.spinnerCheck = false;
+      }, 2000);
       // call sprints
-      this.getSprints();
     }
     // tslint:disable-next-line:semicolon
   };
