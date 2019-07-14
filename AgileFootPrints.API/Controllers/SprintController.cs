@@ -65,6 +65,7 @@ namespace AgileFootPrints.API.Controllers
         }
 
         [HttpPatch("setSprintDates/{sprintId}")]
+        [Obsolete]
         public async Task<IActionResult> SetSprintDates(string sprintId, SprintDatesDto sprintDatesDto)
         {
 

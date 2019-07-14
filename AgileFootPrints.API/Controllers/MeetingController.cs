@@ -25,6 +25,7 @@ namespace AgileFootPrints.API.Controllers
         }
 
         [HttpPost("createMeeting")]
+        [Obsolete]
         public async Task<IActionResult> CreateMeeting(Meeting Meeting)
         {
             Meeting.Date = TimeZone.CurrentTimeZone.ToLocalTime(Meeting.Date);
@@ -40,7 +41,7 @@ namespace AgileFootPrints.API.Controllers
             {
                 return BadRequest();
             }
-            var Meetings = _context.Meetings.Where(x => x.ProjectId == Convert.ToInt32(projectId)).ToArray();
+            var Meetings = await _context.Meetings.Where(x => x.ProjectId == Convert.ToInt32(projectId)).ToArrayAsync();
             return Ok(Meetings);
         }
 
@@ -55,6 +56,7 @@ namespace AgileFootPrints.API.Controllers
             return Ok();
         }
         [HttpPatch("edit/{meetingId}")]
+        [Obsolete]
         public async Task<IActionResult> Edit(string meetingId, Meeting Meeting)
         {
             var meeting = await _context.Meetings.FindAsync(Convert.ToInt32(meetingId));

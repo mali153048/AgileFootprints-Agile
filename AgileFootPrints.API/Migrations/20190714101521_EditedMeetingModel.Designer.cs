@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgileFootPrints.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190523014747_MeetingModuleVenueAdded")]
-    partial class MeetingModuleVenueAdded
+    [Migration("20190714101521_EditedMeetingModel")]
+    partial class EditedMeetingModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099");
 
             modelBuilder.Entity("AgileFootPrints.API.Models.CodeFile", b =>
                 {
@@ -93,16 +93,12 @@ namespace AgileFootPrints.API.Migrations
                     b.Property<string>("Subject")
                         .IsRequired();
 
-                    b.Property<int>("UserId");
-
                     b.Property<string>("Venue")
                         .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Meetings");
                 });
@@ -545,11 +541,6 @@ namespace AgileFootPrints.API.Migrations
                     b.HasOne("AgileFootPrints.API.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AgileFootPrints.API.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
